@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const AuthPage = () => {
+export const NotFoundPage = () => {
   return (
     <div>
-      <h1>Auth page</h1>
+      <h1>404</h1>
     </div>
   );
 };
