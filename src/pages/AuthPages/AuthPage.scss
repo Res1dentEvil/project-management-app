@@ -1,0 +1,39 @@
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
+  margin-top: 25%;
+  padding: 10%;
+  background: #2B2B2B;
+  height: 50vh;
+  width: 20vw;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
+  border: 1px solid black;
+
+  h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    font-weight: lighter;
+  }
+
+  .input__container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    label {
+      font-size: 13px;
+      font-weight: lighter;
+    }
+  }
+
+  .login {
+    //color: #31404F;
+    font-size: 12px;
+    font-weight: lighter;
+  }
+}

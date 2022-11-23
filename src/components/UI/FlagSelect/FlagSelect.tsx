@@ -11,7 +11,7 @@ export const FlagSelect = () => {
         selected={select}
         onSelect={onSelect}
         countries={['UA', 'GB']}
-        customLabels={{ UA: 'UA', GB: 'EN' }}
+        customLabels={{ UA: 'ua', GB: 'en' }}
         className="menu-flags"
         /*showSelectedLabel={showSelectedLabel}
         selectedSize={selectedSize}

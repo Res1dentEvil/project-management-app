@@ -32,11 +32,11 @@ export const Header = () => {
           </Link>
         </div>
         <div className="navbar__login">
-          <Link className="navbar__link auth-link" to="/">
+          <Link className="navbar__link auth-link" to="/registration">
             <AppRegistrationIcon />
             Registration
           </Link>
-          <Link className="navbar__link auth-link" to="/">
+          <Link className="navbar__link auth-link" to="/login">
             <LoginIcon />
             Login
           </Link>
