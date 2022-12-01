@@ -22,5 +22,5 @@
     justify-content: flex-start;
     align-items: center;
     padding: 20px;
-    height: 95vh;
+    min-height: 95vh;
 }

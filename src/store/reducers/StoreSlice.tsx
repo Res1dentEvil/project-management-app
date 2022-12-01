@@ -1,26 +1,35 @@
 import React from 'react';
-import { IState } from '../../types';
+import { IBoard, IDecodedToken, IState } from '../../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getLocalStorage } from '../../services/localStorage';
+import { getLocalStorageToken } from '../../services/localStorage';
+import { decodeToken } from 'react-jwt';
 
 const initialState: IState = {
-  isAuth: getLocalStorage() ? true : false,
-  userName: '',
+  isAuth: getLocalStorageToken() ? true : false,
+  currentUser: getLocalStorageToken()
+    ? decodeToken(getLocalStorageToken())!
+    : ({} as IDecodedToken),
   isLoading: false,
   error: '',
+  showModal: false,
+  boards: [],
 };
 
 export const storeSlice = createSlice({
   name: 'myStore',
   initialState,
   reducers: {
-    authFetching(state) {
+    fetching(state) {
       state.isLoading = true;
     },
-    authFetchingSuccess(state) {
+    fetchingSuccess(state) {
+      state.isLoading = false;
+    },
+    authFetchingSuccess(state, action: PayloadAction<IDecodedToken>) {
       state.isAuth = true;
       state.isLoading = false;
       state.error = '';
+      state.currentUser = action.payload;
     },
     registrationFetchingSuccess(state) {
       state.isLoading = false;
@@ -34,6 +43,13 @@ export const storeSlice = createSlice({
       state.isAuth = false;
       state.isLoading = false;
       state.error = '';
+      state.currentUser = {} as IDecodedToken;
+    },
+    setShowModal(state, action: PayloadAction<boolean>) {
+      state.showModal = action.payload;
+    },
+    setAllBoards(state, action: PayloadAction<IBoard[]>) {
+      state.boards = action.payload;
     },
   },
 });

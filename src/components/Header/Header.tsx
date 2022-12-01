@@ -7,14 +7,16 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import Person2Icon from '@mui/icons-material/Person2';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import { getLocalStorage } from '../../services/localStorage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getLogout } from '../../store/reducers/ActionCreators';
+import { ModalWindow } from '../Modal/Modal';
+import { storeSlice } from '../../store/reducers/StoreSlice';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
-  const { isAuth } = useAppSelector((state) => state.storeReducer);
+  const { isAuth, currentUser } = useAppSelector((state) => state.storeReducer);
+
   return (
     <header className="header">
       <nav className="navbar">
@@ -29,7 +31,13 @@ export const Header = () => {
               <DashboardIcon />
               Boards
             </Link>
-            <Link className="navbar__link" to="/create">
+            <Link
+              className="navbar__link"
+              to="#"
+              onClick={() => {
+                dispatch(storeSlice.actions.setShowModal(true));
+              }}
+            >
               <DashboardCustomizeIcon />
               New board
             </Link>
@@ -37,11 +45,14 @@ export const Header = () => {
               <Person2Icon />
               Profile
             </Link>
+            <ModalWindow />
           </div>
         )}
 
         {isAuth ? (
-          <div className="navbar__logout">
+          <div className="navbar__login navbar__is-auth">
+            <div className="navbar__link navbar__current-user">{currentUser.login}</div>
+            <FlagSelect />
             <Link
               onClick={() => {
                 dispatch(getLogout());
@@ -50,7 +61,6 @@ export const Header = () => {
               to="/login"
             >
               <LogoutIcon />
-              Logout
             </Link>
           </div>
         ) : (

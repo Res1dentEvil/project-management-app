@@ -42,3 +42,12 @@
   display: flex;
   gap: 30px;
 }
+.navbar__is-auth {
+  gap: 5px;
+}
+.navbar__current-user {
+  font-size: 12px;
+  &:hover {
+    text-shadow: none;
+  }
+}
