@@ -13,6 +13,7 @@ const initialState: IState = {
   error: '',
   showModal: false,
   boards: [],
+  editingBoard: {} as IBoard,
 };
 
 export const storeSlice = createSlice({
@@ -50,6 +51,9 @@ export const storeSlice = createSlice({
     },
     setAllBoards(state, action: PayloadAction<IBoard[]>) {
       state.boards = action.payload;
+    },
+    setEditingBoard(state, action: PayloadAction<IBoard>) {
+      state.editingBoard = action.payload;
     },
   },
 });

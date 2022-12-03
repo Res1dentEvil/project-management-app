@@ -5,6 +5,7 @@ export interface IState {
   error: string;
   showModal: boolean;
   boards: IBoard[];
+  editingBoard: IBoard;
 }
 export interface IRegistrationBody {
   name: string;

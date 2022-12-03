@@ -1,7 +1,7 @@
 import { AppDispatch } from '../store';
 import axios, { AxiosError } from 'axios';
 import { storeSlice } from './StoreSlice';
-import { IDecodedToken, ILoginBody, INewBoardBody, IRegistrationBody } from '../../types';
+import { IBoard, IDecodedToken, ILoginBody, INewBoardBody, IRegistrationBody } from '../../types';
 import { getLocalStorageToken, setLocalStorage } from '../../services/localStorage';
 import { decodeToken } from 'react-jwt';
 // import { apiURL } from '../../services/services';
@@ -108,3 +108,42 @@ export const getAllBoards = () => async (dispatch: AppDispatch) => {
     dispatch(storeSlice.actions.authFetchingError(error.message));
   }
 };
+
+export const deleteBoard = (boardId: string) => async (dispatch: AppDispatch) => {
+  console.log('deleting board...');
+  try {
+    const token = getLocalStorageToken();
+    dispatch(storeSlice.actions.fetching());
+    await axios.delete(`http://localhost:3000/boards/${boardId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch(getAllBoards());
+  } catch (e: unknown) {
+    const error = e as AxiosError;
+    dispatch(storeSlice.actions.authFetchingError(error.message));
+  }
+};
+export const editBoard =
+  (board: IBoard, values: INewBoardBody) => async (dispatch: AppDispatch) => {
+    console.log('edit board...');
+    try {
+      const token = getLocalStorageToken();
+      dispatch(storeSlice.actions.fetching());
+      await axios.put(
+        `http://localhost:3000/boards/${board._id}`,
+        {
+          title: values.title,
+          owner: board.owner,
+          users: board.users,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      dispatch(storeSlice.actions.setShowModal(false));
+      dispatch(getAllBoards());
+    } catch (e: unknown) {
+      const error = e as AxiosError;
+      dispatch(storeSlice.actions.authFetchingError(error.message));
+    }
+  };

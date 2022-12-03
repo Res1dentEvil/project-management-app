@@ -7,12 +7,12 @@ import { Button } from '../UI/Button/Button';
 import { Formik } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import { INewBoardBody } from '../../types';
-import { createBoard, getAllBoards } from '../../store/reducers/ActionCreators';
+import { IBoard, INewBoardBody } from '../../types';
+import { createBoard, editBoard, getAllBoards } from '../../store/reducers/ActionCreators';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 
 export const ModalWindow = () => {
-  const { currentUser, showModal } = useAppSelector((state) => state.storeReducer);
+  const { currentUser, showModal, editingBoard } = useAppSelector((state) => state.storeReducer);
   const dispatch = useAppDispatch();
 
   return (
@@ -21,6 +21,7 @@ export const ModalWindow = () => {
         open={showModal}
         onClose={() => {
           dispatch(storeSlice.actions.setShowModal(false));
+          dispatch(storeSlice.actions.setEditingBoard({} as IBoard));
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -28,7 +29,7 @@ export const ModalWindow = () => {
         <Box>
           <div className="modal">
             <Formik
-              initialValues={{ title: '' }}
+              initialValues={{ title: editingBoard.title ? editingBoard.title : '' }}
               validate={(values) => {
                 const errors = {} as INewBoardBody;
                 if (!values.title) {
@@ -44,8 +45,11 @@ export const ModalWindow = () => {
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
-                dispatch(createBoard(values, currentUser));
+                editingBoard.title
+                  ? dispatch(editBoard(editingBoard, values))
+                  : dispatch(createBoard(values, currentUser));
                 setSubmitting(false);
+                dispatch(storeSlice.actions.setEditingBoard({} as IBoard));
                 dispatch(getAllBoards());
               }}
             >
