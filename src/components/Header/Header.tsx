@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getLogout } from '../../store/reducers/ActionCreators';
 import { ModalWindow } from '../Modal/Modal';
 import { storeSlice } from '../../store/reducers/StoreSlice';
+import { ModalActions } from '../../types';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ export const Header = () => {
               className="navbar__link"
               to="#"
               onClick={() => {
+                dispatch(storeSlice.actions.setModalActions(ModalActions.CreateBoard));
                 dispatch(storeSlice.actions.setShowModal(true));
               }}
             >

@@ -5,7 +5,18 @@ export interface IState {
   error: string;
   showModal: boolean;
   boards: IBoard[];
-  editingBoard: IBoard;
+  currentBoard: IBoard;
+  currentColumn: IColumn;
+  actionWithModal: ModalActions;
+}
+export enum ModalActions {
+  HideModal = 'HIDE_MODAL',
+  CreateBoard = 'CREATE_BOARD',
+  EditBoard = 'EDIT_BOARD',
+  CreateColumn = 'CREATE_COLUMN',
+  EditColumn = 'EDIT_COLUMN',
+  CreateTask = 'CREATE_TASK',
+  EditTask = 'EDIT_TASK',
 }
 export interface IRegistrationBody {
   name: string;
@@ -31,4 +42,20 @@ export interface IBoard {
   title: string;
   owner: string;
   users: string[];
+  columns?: IColumn[];
+}
+export interface IColumn {
+  _id: string;
+  title: string;
+  order: number;
+  boardId: string;
+  tasks?: ITask[];
+}
+export interface ITask {
+  title: string;
+  order: number;
+  description: string;
+  userId: number;
+  users: string[];
+  _id?: string;
 }

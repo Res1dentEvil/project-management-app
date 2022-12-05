@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { Modal } from '@mui/material';
 import './Modal.scss';
@@ -7,13 +7,32 @@ import { Button } from '../UI/Button/Button';
 import { Formik } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import { IBoard, INewBoardBody } from '../../types';
-import { createBoard, editBoard, getAllBoards } from '../../store/reducers/ActionCreators';
+import { INewBoardBody, ModalActions } from '../../types';
+import {
+  createBoard,
+  createColumn,
+  editBoard,
+  editColumn,
+} from '../../store/reducers/ActionCreators';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 
 export const ModalWindow = () => {
-  const { currentUser, showModal, editingBoard } = useAppSelector((state) => state.storeReducer);
+  const { currentUser, showModal, actionWithModal, currentBoard, currentColumn } = useAppSelector(
+    (state) => state.storeReducer
+  );
   const dispatch = useAppDispatch();
+
+  let currentValue = '';
+  switch (actionWithModal) {
+    case ModalActions.EditBoard:
+      currentValue = currentBoard.title;
+      break;
+    case ModalActions.EditColumn:
+      currentValue = currentColumn.title;
+      break;
+    default:
+      currentValue = '';
+  }
 
   return (
     <div>
@@ -21,7 +40,7 @@ export const ModalWindow = () => {
         open={showModal}
         onClose={() => {
           dispatch(storeSlice.actions.setShowModal(false));
-          dispatch(storeSlice.actions.setEditingBoard({} as IBoard));
+          dispatch(storeSlice.actions.setModalActions(ModalActions.HideModal));
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -29,7 +48,9 @@ export const ModalWindow = () => {
         <Box>
           <div className="modal">
             <Formik
-              initialValues={{ title: editingBoard.title ? editingBoard.title : '' }}
+              initialValues={{
+                title: currentValue,
+              }}
               validate={(values) => {
                 const errors = {} as INewBoardBody;
                 if (!values.title) {
@@ -45,12 +66,25 @@ export const ModalWindow = () => {
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
-                editingBoard.title
-                  ? dispatch(editBoard(editingBoard, values))
-                  : dispatch(createBoard(values, currentUser));
+                switch (actionWithModal) {
+                  case ModalActions.CreateBoard:
+                    dispatch(createBoard(values, currentUser));
+                    break;
+                  case ModalActions.EditBoard:
+                    dispatch(editBoard(currentBoard, values));
+                    break;
+                  case ModalActions.CreateColumn:
+                    dispatch(createColumn(currentBoard._id, values, currentUser));
+                    break;
+                  case ModalActions.EditColumn:
+                    dispatch(editColumn(currentBoard._id, currentColumn._id, values));
+                    break;
+                  default:
+                    break;
+                }
+
+                dispatch(storeSlice.actions.setModalActions(ModalActions.HideModal));
                 setSubmitting(false);
-                dispatch(storeSlice.actions.setEditingBoard({} as IBoard));
-                dispatch(getAllBoards());
               }}
             >
               {({

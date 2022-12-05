@@ -1,5 +1,5 @@
 import React from 'react';
-import { IBoard, IDecodedToken, IState } from '../../types';
+import { IBoard, IColumn, IDecodedToken, IState, ITask, ModalActions } from '../../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getLocalStorageToken } from '../../services/localStorage';
 import { decodeToken } from 'react-jwt';
@@ -13,7 +13,9 @@ const initialState: IState = {
   error: '',
   showModal: false,
   boards: [],
-  editingBoard: {} as IBoard,
+  currentBoard: {} as IBoard,
+  currentColumn: {} as IColumn,
+  actionWithModal: ModalActions.HideModal,
 };
 
 export const storeSlice = createSlice({
@@ -52,8 +54,27 @@ export const storeSlice = createSlice({
     setAllBoards(state, action: PayloadAction<IBoard[]>) {
       state.boards = action.payload;
     },
-    setEditingBoard(state, action: PayloadAction<IBoard>) {
-      state.editingBoard = action.payload;
+    setCurrentBoard(state, action: PayloadAction<IBoard>) {
+      state.currentBoard = action.payload;
+    },
+    setCurrentBoardColumns(state, action: PayloadAction<IColumn[]>) {
+      state.currentBoard.columns = action.payload;
+    },
+    setNewColumns(state, action: PayloadAction<IColumn>) {
+      state.currentBoard.columns?.push(action.payload);
+    },
+    setCurrentColumn(state, action: PayloadAction<IColumn>) {
+      state.currentColumn = action.payload;
+    },
+    setCurrentColumnTasks(state, action: PayloadAction<{ columnID: string; tasks: ITask[] }>) {
+      state.currentBoard.columns?.forEach((column) => {
+        if (column._id === action.payload.columnID) {
+          column.tasks = action.payload.tasks;
+        }
+      });
+    },
+    setModalActions(state, action: PayloadAction<ModalActions>) {
+      state.actionWithModal = action.payload;
     },
   },
 });
