@@ -7,6 +7,7 @@ export interface IState {
   boards: IBoard[];
   currentBoard: IBoard;
   currentColumn: IColumn;
+  currentTask: ITask;
   actionWithModal: ModalActions;
 }
 export enum ModalActions {
@@ -27,7 +28,7 @@ export interface ILoginBody {
   login: string;
   password: string;
 }
-export interface INewBoardBody {
+export interface INewBody {
   title: string;
   description?: string;
 }
@@ -43,6 +44,7 @@ export interface IBoard {
   owner: string;
   users: string[];
   columns?: IColumn[];
+  tasks?: ITask[];
 }
 export interface IColumn {
   _id: string;
@@ -52,10 +54,12 @@ export interface IColumn {
   tasks?: ITask[];
 }
 export interface ITask {
+  _id: string;
   title: string;
   order: number;
+  boardId: string;
+  columnId: string;
   description: string;
-  userId: number;
+  userId: string;
   users: string[];
-  _id?: string;
 }

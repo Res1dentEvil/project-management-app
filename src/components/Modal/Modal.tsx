@@ -7,31 +7,36 @@ import { Button } from '../UI/Button/Button';
 import { Formik } from 'formik';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
-import { INewBoardBody, ModalActions } from '../../types';
+import { INewBody, ModalActions } from '../../types';
 import {
   createBoard,
   createColumn,
+  createTask,
   editBoard,
   editColumn,
+  editTask,
 } from '../../store/reducers/ActionCreators';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 
 export const ModalWindow = () => {
-  const { currentUser, showModal, actionWithModal, currentBoard, currentColumn } = useAppSelector(
-    (state) => state.storeReducer
-  );
+  const { currentUser, showModal, actionWithModal, currentBoard, currentColumn, currentTask } =
+    useAppSelector((state) => state.storeReducer);
   const dispatch = useAppDispatch();
 
-  let currentValue = '';
+  let currentValue = { title: '', description: '' };
   switch (actionWithModal) {
     case ModalActions.EditBoard:
-      currentValue = currentBoard.title;
+      currentValue.title = currentBoard.title;
       break;
     case ModalActions.EditColumn:
-      currentValue = currentColumn.title;
+      currentValue.title = currentColumn.title;
+      break;
+    case ModalActions.EditTask:
+      currentValue.title = currentTask.title;
+      currentValue.description = currentTask.description;
       break;
     default:
-      currentValue = '';
+      currentValue = { title: '', description: '' };
   }
 
   return (
@@ -49,20 +54,24 @@ export const ModalWindow = () => {
           <div className="modal">
             <Formik
               initialValues={{
-                title: currentValue,
+                title: currentValue.title,
+                description: currentValue.description,
               }}
               validate={(values) => {
-                const errors = {} as INewBoardBody;
+                const errors = {} as INewBody;
                 if (!values.title) {
                   errors.title = 'Required';
-                } else if (values.title.length < 4) {
-                  errors.title = 'Title length must be more than 4';
+                } else if (values.title.length < 4 || values.title.length > 15) {
+                  errors.title = 'Title length must be from 4 to 15 characters';
                 }
-                // if (!values.description) {
-                //   errors.description = 'Required';
-                // } else if (values.description.length < 4) {
-                //   errors.description = 'Description length must be more than 4';
-                // }
+                if (actionWithModal === ModalActions.CreateTask) {
+                  if (!values.description) {
+                    errors.description = 'Required';
+                  } else if (values.description.length < 4) {
+                    errors.description = 'Description length must be more than 4';
+                  }
+                }
+
                 return errors;
               }}
               onSubmit={(values, { setSubmitting }) => {
@@ -79,10 +88,16 @@ export const ModalWindow = () => {
                   case ModalActions.EditColumn:
                     dispatch(editColumn(currentBoard._id, currentColumn._id, values));
                     break;
+                  case ModalActions.CreateTask:
+                    dispatch(createTask(currentBoard._id, values, currentUser, currentColumn._id));
+                    break;
+                  case ModalActions.EditTask:
+                    dispatch(editTask(currentTask, values, currentUser));
+                    break;
                   default:
                     break;
                 }
-
+                dispatch(storeSlice.actions.setShowModal(false));
                 dispatch(storeSlice.actions.setModalActions(ModalActions.HideModal));
                 setSubmitting(false);
               }}
@@ -116,19 +131,22 @@ export const ModalWindow = () => {
                         {errors.title && touched.title && errors.title}
                       </span>
                     </div>
-                    {/*<div className="input__container">*/}
-                    {/*  <label htmlFor="description">Description: </label>*/}
-                    {/*  <textarea*/}
-                    {/*    id={'description'}*/}
-                    {/*    name={'description'}*/}
-                    {/*    className={'input modal__input'}*/}
-                    {/*    defaultValue={values.description}*/}
-                    {/*    onChange={handleChange}*/}
-                    {/*  />*/}
-                    {/*  <span className={'input__error'}>*/}
-                    {/*    {errors.description && touched.description && errors.description}*/}
-                    {/*  </span>*/}
-                    {/*</div>*/}
+                    {actionWithModal === (ModalActions.CreateTask || ModalActions.EditTask) ? (
+                      <div className="input__container">
+                        <label htmlFor="description">Description: </label>
+                        <textarea
+                          id={'description'}
+                          name={'description'}
+                          className={'input modal__input'}
+                          defaultValue={values.description}
+                          onChange={handleChange}
+                        />
+                        <span className={'input__error'}>
+                          {errors.description && touched.description && errors.description}
+                        </span>
+                      </div>
+                    ) : null}
+
                     <Button
                       value={'Add new board'}
                       type={'submit'}

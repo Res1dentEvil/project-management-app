@@ -15,6 +15,7 @@ const initialState: IState = {
   boards: [],
   currentBoard: {} as IBoard,
   currentColumn: {} as IColumn,
+  currentTask: {} as ITask,
   actionWithModal: ModalActions.HideModal,
 };
 
@@ -48,6 +49,9 @@ export const storeSlice = createSlice({
       state.error = '';
       state.currentUser = {} as IDecodedToken;
     },
+    setModalActions(state, action: PayloadAction<ModalActions>) {
+      state.actionWithModal = action.payload;
+    },
     setShowModal(state, action: PayloadAction<boolean>) {
       state.showModal = action.payload;
     },
@@ -73,8 +77,23 @@ export const storeSlice = createSlice({
         }
       });
     },
-    setModalActions(state, action: PayloadAction<ModalActions>) {
-      state.actionWithModal = action.payload;
+    // setTasks(state, action: PayloadAction<ITask[]>) {
+    //   action.payload.forEach((task) => {
+    //     state.currentBoard.columns?.forEach((column) => {
+    //       if (column._id === task.columnId) {
+    //         column.tasks?.push(task);
+    //       }
+    //     });
+    //   });
+    // },
+    setBoardTasks(state, action: PayloadAction<ITask[]>) {
+      state.currentBoard.tasks = action.payload;
+    },
+    setNewTask(state, action: PayloadAction<ITask>) {
+      state.currentBoard.tasks?.push(action.payload);
+    },
+    setCurrentTask(state, action: PayloadAction<ITask>) {
+      state.currentTask = action.payload;
     },
   },
 });

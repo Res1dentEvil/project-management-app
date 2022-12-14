@@ -3,6 +3,15 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
+
+  .board_btn {
+    background-color: rgba(40, 160, 162, 0.14);
+    &:hover {
+      cursor: pointer;
+      background-color: #31404F;
+    }
+  }
+
   .board_columns {
     //height: 75vh;
     display: flex;

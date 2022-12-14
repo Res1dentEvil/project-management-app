@@ -1,0 +1,7 @@
+.board__card-icon {
+  width: 22px;
+  transition: 0.1s;
+  &:hover {
+    transform: scale(1.4);
+  }
+}
