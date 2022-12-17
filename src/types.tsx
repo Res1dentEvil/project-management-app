@@ -4,6 +4,7 @@ export interface IState {
   isLoading: boolean;
   error: string;
   showModal: boolean;
+  showConfirmingModal: boolean;
   boards: IBoard[];
   currentBoard: IBoard;
   currentColumn: IColumn;

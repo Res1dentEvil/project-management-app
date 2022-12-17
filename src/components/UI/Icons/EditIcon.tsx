@@ -21,8 +21,8 @@ export const EditIcon = ({ taskData }: IconProps) => {
         onClick={(event) => {
           event.stopPropagation();
           dispatch(storeSlice.actions.setModalActions(ModalActions.EditTask));
-          dispatch(storeSlice.actions.setShowModal(true));
           dispatch(storeSlice.actions.setCurrentTask(taskData));
+          dispatch(storeSlice.actions.setShowModal(true));
         }}
       />
     </div>

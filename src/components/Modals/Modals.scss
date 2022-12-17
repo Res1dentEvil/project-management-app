@@ -38,3 +38,19 @@
     }
   }
 }
+.confirming-modal {
+  flex-direction: column;
+  justify-content: space-around;
+  width: 25%;
+  min-height: 20%;
+  h2 {
+    font-weight: lighter;
+    font-size: 25px;
+    text-align: center;
+  }
+  .modal_btns {
+    display: flex;
+    justify-content: center;
+    gap: 15%;
+  }
+}

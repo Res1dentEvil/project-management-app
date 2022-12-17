@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { Modal } from '@mui/material';
-import './Modal.scss';
+import './Modals.scss';
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Button/Button';
 import { Formik } from 'formik';
@@ -131,7 +131,8 @@ export const ModalWindow = () => {
                         {errors.title && touched.title && errors.title}
                       </span>
                     </div>
-                    {actionWithModal === (ModalActions.CreateTask || ModalActions.EditTask) ? (
+                    {actionWithModal === ModalActions.CreateTask ||
+                    actionWithModal === ModalActions.EditTask ? (
                       <div className="input__container">
                         <label htmlFor="description">Description: </label>
                         <textarea

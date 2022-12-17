@@ -12,6 +12,7 @@ const initialState: IState = {
   isLoading: false,
   error: '',
   showModal: false,
+  showConfirmingModal: false,
   boards: [],
   currentBoard: {} as IBoard,
   currentColumn: {} as IColumn,
@@ -54,6 +55,9 @@ export const storeSlice = createSlice({
     },
     setShowModal(state, action: PayloadAction<boolean>) {
       state.showModal = action.payload;
+    },
+    setShowConfirmingModal(state, action: PayloadAction<boolean>) {
+      state.showConfirmingModal = action.payload;
     },
     setAllBoards(state, action: PayloadAction<IBoard[]>) {
       state.boards = action.payload;

@@ -15,7 +15,7 @@ export const Task = ({ taskData }: ITaskProps) => {
       <div className="column_task-description">{taskData.description}</div>
       <div className="icons-panel">
         <EditIcon taskData={taskData} />
-        <DeleteIcon taskData={taskData} iconAction={'DELETE_TASK'} />
+        <DeleteIcon componentData={{ taskData: taskData }} iconAction={'DELETE_TASK'} />
       </div>
     </div>
   );

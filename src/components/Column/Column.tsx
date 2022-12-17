@@ -4,10 +4,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { ITask, ModalActions } from '../../types';
 import { deleteColumn, getTasksInColumn } from '../../store/reducers/ActionCreators';
 import { Task } from '../Task/Task';
-import DeleteIcon from '../../assets/delete2.svg';
+// import DeleteIcon from '../../assets/delete2.svg';
 import EditIcon from '../../assets/edit.svg';
 import AddIcon from '../../assets/addnew.png';
 import { storeSlice } from '../../store/reducers/StoreSlice';
+import { DeleteIcon } from '../UI/Icons/DeleteIcon';
 
 interface IColumnProps {
   column: { _id: string; title: string; order: number; boardId: string; tasks?: ITask[] };
@@ -36,15 +37,7 @@ export const Column = ({ column }: IColumnProps) => {
             dispatch(storeSlice.actions.setCurrentColumn(column));
           }}
         />
-        <img
-          src={DeleteIcon}
-          alt={currentBoard.title}
-          className="board__card-icon"
-          onClick={(event) => {
-            event.stopPropagation();
-            dispatch(deleteColumn(currentBoard, column._id));
-          }}
-        />
+        <DeleteIcon componentData={{ columnData: column }} iconAction={'DELETE_COLUMN'} />
       </div>
       <img
         src={AddIcon}
@@ -58,35 +51,9 @@ export const Column = ({ column }: IColumnProps) => {
           dispatch(storeSlice.actions.setCurrentColumn(column));
         }}
       />
-      {/*<div className="board_column_tasks">*/}
-      {/*  {column.tasks?.map((task) => {*/}
-      {/*    return (*/}
-      {/*      <Task*/}
-      {/*        key={task._id}*/}
-      {/*        title={task.title}*/}
-      {/*        order={task.order}*/}
-      {/*        description={task.description}*/}
-      {/*        userId={task.userId}*/}
-      {/*        users={task.users}*/}
-      {/*      />*/}
-      {/*    );*/}
-      {/*  })}*/}
-      {/*</div>*/}
       <div className="board_column_tasks">
         {currentBoard.tasks?.map((task) => {
-          return (
-            task.columnId === column._id && (
-              <Task
-                key={task._id}
-                taskData={task}
-                // title={task.title}
-                // order={task.order}
-                // description={task.description}
-                // userId={task.userId}
-                // users={task.users}
-              />
-            )
-          );
+          return task.columnId === column._id && <Task key={task._id} taskData={task} />;
         })}
       </div>
     </div>

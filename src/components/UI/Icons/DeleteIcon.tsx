@@ -1,34 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DeleteIconImg from '../../../assets/delete2.svg';
 import './Icons.scss';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { deleteTask } from '../../../store/reducers/ActionCreators';
-import { ITask } from '../../../types';
+import { IBoard, IColumn, ITask } from '../../../types';
+import { ConfirmingModal } from '../../Modals/ConfirmingModal';
 
 interface IconProps {
-  taskData: ITask;
+  componentData: { boardData?: IBoard; taskData?: ITask; columnData?: IColumn };
   iconAction: string;
 }
 
-export const DeleteIcon = ({ taskData, iconAction }: IconProps) => {
-  const dispatch = useAppDispatch();
+export const DeleteIcon = ({ componentData, iconAction }: IconProps) => {
+  const [showConfirmingModal, setShowConfirmingModal] = useState(false);
 
   return (
-    <div>
+    <div
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <img
         src={DeleteIconImg}
-        alt={'edit_icon'}
+        alt={'delete_icon'}
         className="board__card-icon"
         onClick={(event) => {
-          event.stopPropagation();
-          switch (iconAction) {
-            case 'DELETE_TASK':
-              dispatch(deleteTask(taskData));
-              break;
-            default:
-              break;
-          }
+          setShowConfirmingModal(true);
         }}
+      />
+      <ConfirmingModal
+        showConfirmingModal={showConfirmingModal}
+        setShowConfirmingModal={setShowConfirmingModal}
+        componentData={componentData}
+        iconAction={iconAction}
       />
     </div>
   );

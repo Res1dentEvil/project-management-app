@@ -10,7 +10,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getLogout } from '../../store/reducers/ActionCreators';
-import { ModalWindow } from '../Modal/Modal';
+import { ModalWindow } from '../Modals/Modal';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 import { ModalActions } from '../../types';
 

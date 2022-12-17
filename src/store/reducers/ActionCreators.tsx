@@ -1,12 +1,17 @@
 import { AppDispatch } from '../store';
 import axios, { AxiosError } from 'axios';
 import { storeSlice } from './StoreSlice';
-import { IBoard, IDecodedToken, ILoginBody, INewBody, IRegistrationBody, ITask } from '../../types';
+import {
+  IBoard,
+  IColumn,
+  IDecodedToken,
+  ILoginBody,
+  INewBody,
+  IRegistrationBody,
+  ITask,
+} from '../../types';
 import { getLocalStorageToken, setLocalStorage } from '../../services/localStorage';
 import { decodeToken } from 'react-jwt';
-import { useAppSelector } from '../../hooks/redux';
-import { resolveSrv } from 'dns';
-// import { apiURL } from '../../services/services';
 
 export const getRegistration = (
   body: IRegistrationBody,
@@ -112,12 +117,11 @@ export const getAllBoards = () => async (dispatch: AppDispatch) => {
   }
 };
 
-export const deleteBoard = (boardId: string) => async (dispatch: AppDispatch) => {
-  // console.log('deleting board...');
+export const deleteBoard = (board: IBoard) => async (dispatch: AppDispatch) => {
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
-    await axios.delete(`http://localhost:3000/boards/${boardId}`, {
+    await axios.delete(`http://localhost:3000/boards/${board._id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     dispatch(getAllBoards());
@@ -196,15 +200,15 @@ export const createColumn =
       dispatch(storeSlice.actions.authFetchingError(error.message));
     }
   };
-export const deleteColumn = (board: IBoard, columnID: string) => async (dispatch: AppDispatch) => {
+export const deleteColumn = (column: IColumn) => async (dispatch: AppDispatch) => {
   // console.log('deleting column...');
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
-    await axios.delete(`http://localhost:3000/boards/${board._id}/columns/${columnID}`, {
+    await axios.delete(`http://localhost:3000/boards/${column.boardId}/columns/${column._id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    dispatch(getColumnsInBoard(board._id));
+    dispatch(getColumnsInBoard(column.boardId));
   } catch (e: unknown) {
     const error = e as AxiosError;
     dispatch(storeSlice.actions.authFetchingError(error.message));
