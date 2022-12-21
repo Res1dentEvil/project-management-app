@@ -6,8 +6,10 @@ import './Board.scss';
 import { getColumnsInBoard, getTasksInBoard } from '../../store/reducers/ActionCreators';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 import { ModalActions } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 const Board = () => {
+  const { t } = useTranslation();
   const { currentBoard } = useAppSelector((state) => state.storeReducer);
   const dispatch = useAppDispatch();
 
@@ -19,7 +21,7 @@ const Board = () => {
     <div className="container board_container">
       <h1>{currentBoard.title}</h1>
       <Button
-        value={'CREATE NEW COLUMN'}
+        value={`${t('buttons.btnCreateColumn')}`}
         className={'board_btn'}
         onClick={() => {
           dispatch(storeSlice.actions.setShowModal(true));

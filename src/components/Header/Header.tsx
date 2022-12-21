@@ -13,10 +13,13 @@ import { getLogout } from '../../store/reducers/ActionCreators';
 import { ModalWindow } from '../Modals/Modal';
 import { storeSlice } from '../../store/reducers/StoreSlice';
 import { ModalActions } from '../../types';
+import { Provider } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
   const dispatch = useAppDispatch();
   const { isAuth, currentUser } = useAppSelector((state) => state.storeReducer);
+  const { t } = useTranslation();
 
   return (
     <header className="header">
@@ -30,7 +33,7 @@ export const Header = () => {
           <div className="navbar__links">
             <Link className="navbar__link" to="/boards">
               <DashboardIcon />
-              Boards
+              {t('header.boards')}
             </Link>
             <Link
               className="navbar__link"
@@ -41,11 +44,11 @@ export const Header = () => {
               }}
             >
               <DashboardCustomizeIcon />
-              New board
+              {t('header.newBoard')}
             </Link>
             <Link className="navbar__link" to="/profile">
               <Person2Icon />
-              Profile
+              {t('header.profile')}
             </Link>
             <ModalWindow />
           </div>
@@ -69,11 +72,11 @@ export const Header = () => {
           <div className="navbar__login">
             <Link className="navbar__link auth-link" to="/registration">
               <AppRegistrationIcon />
-              Registration
+              {t('authPage.registration')}
             </Link>
             <Link className="navbar__link auth-link" to="/login">
               <LoginIcon />
-              Login
+              {t('authPage.login')}
             </Link>
             <FlagSelect />
           </div>

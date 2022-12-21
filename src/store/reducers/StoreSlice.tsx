@@ -56,9 +56,6 @@ export const storeSlice = createSlice({
     setShowModal(state, action: PayloadAction<boolean>) {
       state.showModal = action.payload;
     },
-    setShowConfirmingModal(state, action: PayloadAction<boolean>) {
-      state.showConfirmingModal = action.payload;
-    },
     setAllBoards(state, action: PayloadAction<IBoard[]>) {
       state.boards = action.payload;
     },
@@ -81,15 +78,6 @@ export const storeSlice = createSlice({
         }
       });
     },
-    // setTasks(state, action: PayloadAction<ITask[]>) {
-    //   action.payload.forEach((task) => {
-    //     state.currentBoard.columns?.forEach((column) => {
-    //       if (column._id === task.columnId) {
-    //         column.tasks?.push(task);
-    //       }
-    //     });
-    //   });
-    // },
     setBoardTasks(state, action: PayloadAction<ITask[]>) {
       state.currentBoard.tasks = action.payload;
     },

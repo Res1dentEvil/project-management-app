@@ -17,8 +17,10 @@ import {
   editTask,
 } from '../../store/reducers/ActionCreators';
 import { storeSlice } from '../../store/reducers/StoreSlice';
+import { useTranslation } from 'react-i18next';
 
 export const ModalWindow = () => {
+  const { t } = useTranslation();
   const { currentUser, showModal, actionWithModal, currentBoard, currentColumn, currentTask } =
     useAppSelector((state) => state.storeReducer);
   const dispatch = useAppDispatch();
@@ -60,15 +62,15 @@ export const ModalWindow = () => {
               validate={(values) => {
                 const errors = {} as INewBody;
                 if (!values.title) {
-                  errors.title = 'Required';
+                  errors.title = `${t('authPage.errorRequired')}`;
                 } else if (values.title.length < 4 || values.title.length > 15) {
-                  errors.title = 'Title length must be from 4 to 15 characters';
+                  errors.title = `${t('modals.errorTitle')}`;
                 }
                 if (actionWithModal === ModalActions.CreateTask) {
                   if (!values.description) {
-                    errors.description = 'Required';
+                    errors.description = `${t('authPage.errorRequired')}`;
                   } else if (values.description.length < 4) {
-                    errors.description = 'Description length must be more than 4';
+                    errors.description = `${t('modals.errorDescription')}`;
                   }
                 }
 
@@ -115,10 +117,10 @@ export const ModalWindow = () => {
                   <form onSubmit={handleSubmit} className="modal__container">
                     <h2>
                       <DashboardCustomizeIcon />
-                      Create board
+                      {actionWithModal}
                     </h2>
                     <div className="input__container">
-                      <label htmlFor="title">Title: </label>
+                      <label htmlFor="title">{t('modals.modalTitle')}: </label>
                       <Input
                         type={'text'}
                         id={'title'}
@@ -134,7 +136,7 @@ export const ModalWindow = () => {
                     {actionWithModal === ModalActions.CreateTask ||
                     actionWithModal === ModalActions.EditTask ? (
                       <div className="input__container">
-                        <label htmlFor="description">Description: </label>
+                        <label htmlFor="description">{t('modals.modalDescription')}: </label>
                         <textarea
                           id={'description'}
                           name={'description'}
@@ -149,7 +151,7 @@ export const ModalWindow = () => {
                     ) : null}
 
                     <Button
-                      value={'Add new board'}
+                      value={`${t('buttons.btnModalCreate')}`}
                       type={'submit'}
                       disabled={isSubmitting}
                       className={'btn__modal'}

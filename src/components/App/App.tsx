@@ -12,6 +12,7 @@ import { Footer } from '../Footer/Footer';
 import { LoginPage } from '../../pages/AuthPages/LoginPage';
 import { RegistrationPage } from '../../pages/AuthPages/RegistrationPage';
 import Board from '../Board/Board';
+import { useTranslation } from 'react-i18next';
 
 export const store = setupStore();
 

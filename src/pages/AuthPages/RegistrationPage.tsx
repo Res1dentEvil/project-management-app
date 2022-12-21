@@ -8,6 +8,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { Formik } from 'formik';
 import { getRegistration } from '../../store/reducers/ActionCreators';
 import { useAppDispatch } from '../../hooks/redux';
+import { useTranslation } from 'react-i18next';
 
 interface IFormikErrors {
   name: string;
@@ -16,6 +17,7 @@ interface IFormikErrors {
 }
 
 export const RegistrationPage = () => {
+  const { t } = useTranslation();
   const router = useNavigate();
   const dispatch = useAppDispatch();
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
@@ -33,19 +35,19 @@ export const RegistrationPage = () => {
         validate={(values) => {
           const errors = {} as IFormikErrors;
           if (!values.name) {
-            errors.name = 'Required';
+            errors.name = `${t('authPage.errorRequired')}`;
           } else if (values.name.length < 4) {
-            errors.name = 'Name length must be more than 4';
+            errors.name = `${t('authPage.errorName')}`;
           }
           if (!values.login) {
-            errors.login = 'Required';
+            errors.login = `${t('authPage.errorRequired')}`;
           } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.login)) {
-            errors.login = 'Invalid email address';
+            errors.login = `${t('authPage.errorEmail')}`;
           }
           if (!values.password) {
-            errors.password = 'Required';
+            errors.password = `${t('authPage.errorRequired')}`;
           } else if (values.password.length < 4) {
-            errors.password = 'Password length must be more than 4';
+            errors.password = `${t('authPage.errorPassword')}`;
           }
           return errors;
         }}
@@ -59,10 +61,10 @@ export const RegistrationPage = () => {
             <form onSubmit={handleSubmit} className="auth-form">
               <h2>
                 <AppRegistrationIcon />
-                Registration
+                {t('authPage.registration')}
               </h2>
               <div className="input__container">
-                <label htmlFor="login">Login name: </label>
+                <label htmlFor="login">{t('authPage.loginName')}: </label>
                 <Input
                   type={'text'}
                   id={'name'}
@@ -74,7 +76,7 @@ export const RegistrationPage = () => {
                 <span className={'input__error'}>{errors.name && touched.name && errors.name}</span>
               </div>
               <div className="input__container">
-                <label htmlFor="email">Login email: </label>
+                <label htmlFor="email">{t('authPage.email')}: </label>
                 <Input
                   type={'email'}
                   id={'login'}
@@ -88,7 +90,7 @@ export const RegistrationPage = () => {
                 </span>
               </div>
               <div className="input__container">
-                <label htmlFor="password">Password: </label>
+                <label htmlFor="password">{t('authPage.password')}: </label>
                 <Input
                   type={'password'}
                   id={'password'}
@@ -101,11 +103,15 @@ export const RegistrationPage = () => {
                   {errors.password && touched.password && errors.password}
                 </span>
               </div>
-              <Button value={'Registration'} type={'submit'} disabled={isSubmitting} />
+              <Button
+                value={`${t('authPage.registration')}`}
+                type={'submit'}
+                disabled={isSubmitting}
+              />
               <div>
                 <Link className="navbar__link auth-link login" to="/login">
                   <LoginIcon />
-                  Login if you are registered
+                  {t('authPage.loginIfRegistration')}
                 </Link>
               </div>
             </form>

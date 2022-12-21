@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getLogin } from '../../store/reducers/ActionCreators';
+import { useTranslation } from 'react-i18next';
 
 interface IFormikErrors {
   login: string;
@@ -15,6 +16,7 @@ interface IFormikErrors {
 }
 
 export const LoginPage = () => {
+  const { t } = useTranslation();
   const router = useNavigate();
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.storeReducer);
@@ -32,14 +34,14 @@ export const LoginPage = () => {
         validate={(values) => {
           const errors = {} as IFormikErrors;
           if (!values.password) {
-            errors.password = 'Required';
+            errors.password = `${t('authPage.errorRequired')}`;
           } else if (values.password.length < 4) {
-            errors.password = 'Password length must be more than 4';
+            errors.password = `${t('authPage.errorPassword')}`;
           }
           if (!values.login) {
-            errors.login = 'Required';
+            errors.login = `${t('authPage.errorRequired')}`;
           } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.login)) {
-            errors.login = 'Invalid email address';
+            errors.login = `${t('authPage.errorEmail')}`;
           }
           return errors;
         }}
@@ -53,10 +55,10 @@ export const LoginPage = () => {
             <form onSubmit={handleSubmit} className="auth-form">
               <h2>
                 <LoginIcon />
-                Login
+                {t('authPage.login')}
               </h2>
               <div className="input__container">
-                <label htmlFor="email">Email: </label>
+                <label htmlFor="email">{t('authPage.email')}: </label>
                 <Input
                   type={'email'}
                   id={'login'}
@@ -70,7 +72,7 @@ export const LoginPage = () => {
                 </span>
               </div>
               <div className="input__container">
-                <label htmlFor="password">Password: </label>
+                <label htmlFor="password">{t('authPage.password')}: </label>
                 <Input
                   type={'password'}
                   id={'password'}
@@ -83,11 +85,11 @@ export const LoginPage = () => {
                   {errors.password && touched.password && errors.password}
                 </span>
               </div>
-              <Button value={'Login'} type={'submit'} disabled={isSubmitting} />
+              <Button value={`${t('authPage.login')}`} type={'submit'} disabled={isSubmitting} />
               <div>
                 <Link className="navbar__link auth-link login" to="/registration">
                   <AppRegistrationIcon />
-                  Registration
+                  {t('authPage.registration')}
                 </Link>
               </div>
             </form>

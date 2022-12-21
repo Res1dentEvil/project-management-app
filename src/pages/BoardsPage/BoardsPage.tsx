@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BoardCard } from '../../components/UI/BoardCard/BoardCard';
+import { BoardCard } from '../../components/BoardCard/BoardCard';
 import './BoardsPage.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { getAllBoards } from '../../store/reducers/ActionCreators';
