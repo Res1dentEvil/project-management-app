@@ -88,7 +88,9 @@ export const ModalWindow = () => {
                     dispatch(createColumn(currentBoard._id, values, currentUser));
                     break;
                   case ModalActions.EditColumn:
-                    dispatch(editColumn(currentBoard._id, currentColumn._id, values));
+                    dispatch(
+                      editColumn(currentBoard._id, currentColumn._id, currentColumn.order, values)
+                    );
                     break;
                   case ModalActions.CreateTask:
                     dispatch(createTask(currentBoard._id, values, currentUser, currentColumn._id));

@@ -98,7 +98,6 @@ export const createBoard =
   };
 
 export const getAllBoards = () => async (dispatch: AppDispatch) => {
-  // console.log('getting all boards...');
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
@@ -107,7 +106,6 @@ export const getAllBoards = () => async (dispatch: AppDispatch) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        // console.log('RESPONSE: ', response.data);
         dispatch(storeSlice.actions.setAllBoards(response.data));
       });
     dispatch(storeSlice.actions.fetchingSuccess());
@@ -131,7 +129,6 @@ export const deleteBoard = (board: IBoard) => async (dispatch: AppDispatch) => {
   }
 };
 export const editBoard = (board: IBoard, values: INewBody) => async (dispatch: AppDispatch) => {
-  // console.log('edit board...');
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
@@ -154,7 +151,6 @@ export const editBoard = (board: IBoard, values: INewBody) => async (dispatch: A
   }
 };
 export const getColumnsInBoard = (boardID: string) => async (dispatch: AppDispatch) => {
-  // console.log('getting columns in board...');
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
@@ -163,8 +159,11 @@ export const getColumnsInBoard = (boardID: string) => async (dispatch: AppDispat
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        // console.log('RESPONSE: ', response.data);
-        dispatch(storeSlice.actions.setCurrentBoardColumns(response.data));
+        const ordered = response.data.sort((column1: IColumn, column2: IColumn) => {
+          return column1.order! - column2.order!;
+        });
+        dispatch(storeSlice.actions.setCurrentBoardColumns(ordered));
+        // dispatch(storeSlice.actions.setCurrentBoardColumns(response.data));
       });
     dispatch(storeSlice.actions.fetchingSuccess());
   } catch (e: unknown) {
@@ -176,7 +175,6 @@ export const getColumnsInBoard = (boardID: string) => async (dispatch: AppDispat
 export const createColumn =
   (boardID: string, values: INewBody, currentUser: IDecodedToken) =>
   async (dispatch: AppDispatch) => {
-    // console.log('creating board...');
     try {
       const token = getLocalStorageToken();
       const response = await axios
@@ -194,7 +192,6 @@ export const createColumn =
           dispatch(storeSlice.actions.setNewColumns(response.data));
         });
       dispatch(storeSlice.actions.setShowModal(false));
-      // dispatch(getAllBoards());
     } catch (e: unknown) {
       const error = e as AxiosError;
       dispatch(storeSlice.actions.authFetchingError(error.message));
@@ -215,8 +212,8 @@ export const deleteColumn = (column: IColumn) => async (dispatch: AppDispatch) =
   }
 };
 export const editColumn =
-  (boardID: string, columnID: string, values: INewBody) => async (dispatch: AppDispatch) => {
-    // console.log('edit column...');
+  (boardID: string, columnID: string, columnOrder: number, values: INewBody) =>
+  async (dispatch: AppDispatch) => {
     try {
       const token = getLocalStorageToken();
       dispatch(storeSlice.actions.fetching());
@@ -224,15 +221,36 @@ export const editColumn =
         `http://localhost:3000/boards/${boardID}/columns/${columnID}`,
         {
           title: values.title,
-          order: 0,
+          order: columnOrder,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       dispatch(getColumnsInBoard(boardID));
-      // dispatch(getTasksInColumn(boardID, columnID));
       dispatch(storeSlice.actions.setShowModal(false));
+    } catch (e: unknown) {
+      const error = e as AxiosError;
+      dispatch(storeSlice.actions.authFetchingError(error.message));
+    }
+  };
+
+export const updColumn =
+  (boardID: string, columnID: string, columnOrder: number, values: INewBody) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      const token = getLocalStorageToken();
+      dispatch(storeSlice.actions.fetching());
+      await axios.put(
+        `http://localhost:3000/boards/${boardID}/columns/${columnID}`,
+        {
+          title: values.title,
+          order: columnOrder,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     } catch (e: unknown) {
       const error = e as AxiosError;
       dispatch(storeSlice.actions.authFetchingError(error.message));

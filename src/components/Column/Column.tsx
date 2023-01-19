@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Column.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { ITask, ModalActions } from '../../types';
+import { IBoard, IColumn, ITask, ModalActions } from '../../types';
 import { deleteColumn, getTasksInColumn } from '../../store/reducers/ActionCreators';
 import { Task } from '../Task/Task';
-// import DeleteIcon from '../../assets/delete2.svg';
 import EditIcon from '../../assets/edit.svg';
 import AddIcon from '../../assets/addnew.png';
 import { storeSlice } from '../../store/reducers/StoreSlice';
@@ -15,13 +14,13 @@ interface IColumnProps {
 }
 
 export const Column = ({ column }: IColumnProps) => {
-  const { currentBoard } = useAppSelector((state) => state.storeReducer);
+  const { currentBoard, currentColumn } = useAppSelector((state) => state.storeReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getTasksInColumn(currentBoard._id, column._id));
-    console.log('GET TASK IN COLUMN');
   }, []);
+
   return (
     <div className="board_column">
       <div className="column-edit-panel">
@@ -53,7 +52,11 @@ export const Column = ({ column }: IColumnProps) => {
       />
       <div className="board_column_tasks">
         {currentBoard.tasks?.map((task) => {
-          return task.columnId === column._id && <Task key={task._id} taskData={task} />;
+          return (
+            task.columnId === column._id && (
+              <Task key={task._id} taskData={task} columnData={column} />
+            )
+          );
         })}
       </div>
     </div>

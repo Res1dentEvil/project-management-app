@@ -11,7 +11,7 @@ import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import { Footer } from '../Footer/Footer';
 import { LoginPage } from '../../pages/AuthPages/LoginPage';
 import { RegistrationPage } from '../../pages/AuthPages/RegistrationPage';
-import Board from '../Board/Board';
+import { ColumnsList } from '../ColumnsList/ColumnsList';
 import { useTranslation } from 'react-i18next';
 
 export const store = setupStore();
@@ -24,7 +24,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/boards" element={<BoardsPage />} />
-          <Route path="/boards/:id" element={<Board />} />
+          <Route path="/boards/:id" element={<ColumnsList />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registration" element={<RegistrationPage />} />

@@ -1,14 +1,19 @@
 import React from 'react';
-import { ITask } from '../../types';
+import { IColumn, ITask } from '../../types';
 import './Task.scss';
 import { EditIcon } from '../UI/Icons/EditIcon';
 import { DeleteIcon } from '../UI/Icons/DeleteIcon';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 interface ITaskProps {
   taskData: ITask;
+  columnData: IColumn;
 }
 
-export const Task = ({ taskData }: ITaskProps) => {
+export const Task = ({ taskData, columnData }: ITaskProps) => {
+  const { currentBoard } = useAppSelector((state) => state.storeReducer);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="column_task">
       <h3 className="column_task-title">{taskData.title}</h3>
