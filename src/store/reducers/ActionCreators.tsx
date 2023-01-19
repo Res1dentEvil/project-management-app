@@ -198,7 +198,6 @@ export const createColumn =
     }
   };
 export const deleteColumn = (column: IColumn) => async (dispatch: AppDispatch) => {
-  // console.log('deleting column...');
   try {
     const token = getLocalStorageToken();
     dispatch(storeSlice.actions.fetching());
@@ -259,7 +258,6 @@ export const updColumn =
 
 export const getTasksInColumn =
   (boardID: string, columnID: string) => async (dispatch: AppDispatch) => {
-    // console.log('getting tasks in column...');
     try {
       const token = getLocalStorageToken();
       dispatch(storeSlice.actions.fetching());
@@ -298,7 +296,6 @@ export const getTasksInBoard = (boardID: string) => async (dispatch: AppDispatch
 export const createTask =
   (boardID: string, values: INewBody, currentUser: IDecodedToken, columnID: string) =>
   async (dispatch: AppDispatch) => {
-    // console.log('creating task...');
     try {
       const token = getLocalStorageToken();
       const response = await axios
@@ -319,8 +316,6 @@ export const createTask =
           dispatch(storeSlice.actions.setNewTask(response.data));
         });
       dispatch(storeSlice.actions.setShowModal(false));
-
-      // dispatch(getTasksInColumn(boardID, columnID));
     } catch (e: unknown) {
       const error = e as AxiosError;
       dispatch(storeSlice.actions.authFetchingError(error.message));
