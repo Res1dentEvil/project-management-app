@@ -1,0 +1,31 @@
+.btn {
+  background-color: #31404F;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-family: sans-serif;
+  height: 40px;
+  transition: 0.2s;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #516982;
+  }
+}
+.btn__get-started {
+  margin-top: 50px;
+  width: 210px;
+  height: 65px;
+}
+.btn__modal {
+  width: 150px;
+  margin-left: auto;
+  margin-top: 10px;
+}
+.btn_confirming-modal {
+  background-color: rgba(40, 160, 162, 0.14);
+  width: 25%;
+}

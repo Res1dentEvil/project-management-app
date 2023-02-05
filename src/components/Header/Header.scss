@@ -1,0 +1,53 @@
+.navbar {
+  background: #2b2b2b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+  padding: 0 20px;
+  font-size: 1.5em;
+  color: #F7F4EE;
+  font-weight: lighter;
+}
+
+.navbar__logo {
+  max-width: 250px;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 30px;
+}
+
+.navbar__link {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+  text-decoration: none;
+  color: #F7F4EE;
+
+  &:hover {
+    text-shadow: rgba(247, 244, 238, 0.5) 0px 0px 15px;
+  }
+}
+
+.auth-link {
+  font-weight: lighter;
+  font-size: 16px;
+}
+
+.navbar__login {
+  display: flex;
+  gap: 30px;
+}
+.navbar__is-auth {
+  gap: 5px;
+}
+.navbar__current-user {
+  font-size: 12px;
+  &:hover {
+    text-shadow: none;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "header": {
+    "boards": "Boards",
+    "newBoard": "New Board",
+    "profile": "Profile"
+  },
+  "homePage": {
+    "tasks": "Tasks",
+    "manager": "Manager",
+    "description": "It is a project management software that allows you to centrally manage tasks and their timely completion. Trackers are widely used in project management, because they allow you to easily monitor all work processes and control the work of the team",
+    "btnGetStarted": "GET STARTED"
+  },
+  "authPage": {
+    "login": "Login",
+    "registration": "Registration",
+    "email": "Email",
+    "password": "Password",
+    "loginName": "Login name",
+    "loginIfRegistration": "Login if you are registered",
+    "errorRequired": "Required",
+    "errorName": "Name length must be more than 4",
+    "errorEmail": "Invalid email address",
+    "errorPassword": "Password length must be more than 4"
+  },
+  "buttons": {
+    "btnCreateColumn": "CREATE NEW COLUMN",
+    "btnModalCreate": "CREATE"
+  },
+  "modals": {
+    "modalTitle" : "Title",
+    "modalDescription" : "Description",
+    "errorTitle": "Title length must be from 4 to 15 characters",
+    "errorDescription": "Description length must be more than 4"
+  }
+}

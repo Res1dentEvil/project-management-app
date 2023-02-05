@@ -1,0 +1,24 @@
+.column_task {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  width: 100%;
+  min-height: 35px;
+  background-color: rgba(40, 160, 162, 0.14);
+  border-radius: 4px;
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: rgba(40, 160, 162, 0.14) 0px 0px 10px;
+    border: 1px solid rgba(40, 160, 162, 0.14);
+  }
+
+  .icons-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 2px;
+    margin-left: auto;
+  }
+}
